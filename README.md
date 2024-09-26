@@ -1,91 +1,101 @@
 
 <p align="center">
-<img src="https://github.com/Guilhermossauro/Baileys-Natsuki/blob/main/natsuki-perfil.jpg" width="128" height="128"/>
+  <img src="https://github.com/Guilhermossauro/Baileys-Natsuki/blob/main/natsuki-perfil.jpg" width="128" height="128"/>
 </p>
+
 <p align="center">
-<a href="#"><img title="Whatsapp-Bot" src="https://img.shields.io/badge/Whatsapp Bot-green?colorA=%23ff0000&colorB=%23017e40&style=for-the-badge"></a>
+  <a href="#"><img title="Whatsapp Bot" src="https://img.shields.io/badge/Whatsapp Bot-green?colorA=%23ff0000&colorB=%23017e40&style=for-the-badge"></a>
 </p>
+
 <p align="center">
-<a href="https://github.com/mhankbarbar"><img title="Author" src="https://img.shields.io/badge/Author-Guilhermossauro-red.svg?style=for-the-badge&logo=github"></a>
+  <a href="https://github.com/Guilhermossauro"><img title="Author" src="https://img.shields.io/badge/Author-Guilhermossauro-red.svg?style=for-the-badge&logo=github"></a>
 </p>
+
 <p align="center">
-<a href="https://github.com/mhankbarbar/followers"><img title="Followers" src="https://img.shields.io/github/followers/Guilhermossauro?color=blue&style=flat-square"></a>
-<a href="https://github.com/mhankbarbar/whatsapp-bot/stargazers/"><img title="Stars" src="https://img.shields.io/github/stars/Guilhermossauro/Baileys-Natsuki?color=red&style=flat-square"></a>
-<a href="https://github.com/mhankbarbar/whatsapp-bot/network/members"><img title="Forks" src="https://img.shields.io/github/forks/Guilhermossauro/Baileys-Natsuki?color=red&style=flat-square"></a>
-<a href="https://github.com/mhankbarbar/whatsapp-bot/watchers"><img title="Watching" src="https://img.shields.io/github/watchers/Guilhermossauro/Baileys-Natsuki?label=Watchers&color=blue&style=flat-square"></a>
+  <a href="https://github.com/Guilhermossauro/Baileys-Natsuki/followers"><img title="Followers" src="https://img.shields.io/github/followers/Guilhermossauro?color=blue&style=flat-square"></a>
+  <a href="https://github.com/Guilhermossauro/Baileys-Natsuki/stargazers"><img title="Stars" src="https://img.shields.io/github/stars/Guilhermossauro/Baileys-Natsuki?color=red&style=flat-square"></a>
+  <a href="https://github.com/Guilhermossauro/Baileys-Natsuki/network/members"><img title="Forks" src="https://img.shields.io/github/forks/Guilhermossauro/Baileys-Natsuki?color=red&style=flat-square"></a>
+  <a href="https://github.com/Guilhermossauro/Baileys-Natsuki/watchers"><img title="Watchers" src="https://img.shields.io/github/watchers/Guilhermossauro/Baileys-Natsuki?label=Watchers&color=blue&style=flat-square"></a>
+</p>
 
+## Instalação do Bot no Linux
 
-
-## Instalando bot
+### Passo 1: Clonando o Repositório
 ```bash
 git clone https://github.com/Guilhermossauro/Baileys-Natsuki
 ```
+
+### Passo 2: Instalando Dependências
 ```bash
 cd Baileys-Natsuki
-```
-```bash
 npm install
 ```
 
+### Passo 3: Iniciando o Bot
 ```bash
 npm start
 ```
 
-Digite o numero desejado para adicionar ao bot no terminal (deve incluir o codigo do pais e o DDD sem o 0) e mande um `!menu` para o número que usou para escanear.
-exemplo:
+### Configuração Inicial
+Digite o número desejado para adicionar ao bot no terminal (incluir o código do país e o DDD sem o 0). Exemplo:
+```bash
 5527981254789
-Aguarde o código aparecer no terminal, este código voce vai digitar em seu whatsapp usando conexão com numero de telefone
+```
+Aguarde o código aparecer no terminal e escaneie no WhatsApp.
 
-
-### Ambiente de Produção
-
-Acredito que você não queria que o server fique ocupando uma instância do terminal. Devemos então prepará-lo para o [PM2](https://pm2.keymetrics.io/).
-
-> Não ensinarei aqui como configurar o [PM2](https://pm2.keymetrics.io/). Mas se quiser, você pode ver o [guia](https://pm2.keymetrics.io/docs/usage/quick-start/) para isso.
+### Ambiente de Produção com PM2
+Para rodar o bot em background, use PM2:
 ```bash
 npm install -g pm2
+pm2 start app.js --name Baileys-Natsuki
 ```
 
-Se quiser usar o pm2, execute:
+### Instalando O bot no linux
+1. Instale o Node.js:
 ```bash
-pm2 start app.js --name wabot-bot
+sudo apt update
+sudo apt install nodejs
+sudo apt install npm
 ```
 
-## Recursos
+2. Instale o FFMPEG:
+```bash
+sudo apt install ffmpeg
+```
+3. Instale as dependencias do bot:
+```bash
+sudo npm i
+```
+3. Inicie o bot:
+```bash
+node app.js
+```
 
-| Criador de sticker |                Recurso           |
-| :-----------: | :--------------------------------: |
-|       ✅       | Faz figurinha de foto mencionada          |
-|       ✅       | figurinha a partir de imagem enviada      |
-|       ⌛       | faz figurinha sem fundo                   |
-|       ✅       | Faz figurinha a partir de  video/gif  |
+## Recursos Disponíveis
 
+| Criador de Stickers | Recurso |
+|---------------------|---------|
+| ✅                   | Figurinha de foto mencionada |
+| ✅                   | Figurinha a partir de imagem |
+| ⌛                   | Figurinha sem fundo          |
+| ✅                   | Figurinha de vídeo/gif       |
 
-| Apenas para grupos  |                     Recurso                     |
-| :------------: | :---------------------------------------------: |
-|       ✅        |   Promover usuario              |
-|       ✅        |   Rebaixar usuario              |
-|       ✅        |   Banir usuario                 |
-|       ✅        |   Adicionar usuario             |
-|       ✅        |   mencionar todos               |
-|       ✅        |   Gerar link do grupo           |
-|       ✅        |   Pegar lista de adm            |
-|       ✅        |   Pegar dono do grupo           |
-|       ✅        |   Tamanho do 🍆               |
-|       ✅        |   Tamanho da bunda           |
-|       ✅        |   nível de inteligencia          |
-|       ✅        |   nivel de beleza           |
-|       ✅        |   nivel de carisma           |
-|       ✅        |   nivel do shape           |
+| Grupos | Recurso |
+|--------|---------|
+| ✅      | Promover usuário |
+| ✅      | Rebaixar usuário |
+| ✅      | Banir usuário    |
+| ✅      | Adicionar usuário |
+| ✅      | Mencionar todos  |
+| ✅      | Gerar link do grupo |
+| ✅      | Listar administradores |
+| ✅      | Exibir dono do grupo |
 
-| Other  |                     Feature                     |
-| :------------: | :---------------------------------------------: |
-|       ⌛        |  Meme aleatorio             |
-|       ✅         |   Texto para audio              |
-|       ⌛        |   Foto de waifu aleatoria     |
-|       ✅        |   Clima     |
-|        ⌛        |   Busca por animes    |
-|       ✅        |   Foto aleatoria de cafe       |
-|      ⌛        |   Others...                     |
-
-
+| Outros | Recurso |
+|--------|---------|
+| ✅      | Texto para áudio (TTS) |
+| ⌛      | Meme aleatório |
+| ✅      | Clima |
+| ⌛      | Busca por animes |
+| ✅      | Foto de café aleatória |
+| ✅      | Contador de dias |
