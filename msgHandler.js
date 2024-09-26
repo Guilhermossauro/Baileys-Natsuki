@@ -40,8 +40,9 @@ const quotedMessageSender = message?.extendedTextMessage?.contextInfo?.participa
             if(isGroup){
             console.log(colorText("SENDER	===>", blue), colorText(sender, green));}
              console.log(colorText("ARGUMENTS	===>", blue), colorText(ismedia ? `[${mimetyped.mimetype}]` : mimetyped.command, green));
-     
+             let quotedMessage = message.extendedTextMessage?.contextInfo?.quotedMessage;
     let isCommand = false
+                enviado.quotedMessage= quotedMessage
                 enviado.sender= sender
                 enviado.from=remoteJid
                 enviado.mimetyped= mimetyped
