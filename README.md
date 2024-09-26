@@ -18,7 +18,7 @@
   <a href="https://github.com/Guilhermossauro/Baileys-Natsuki/watchers"><img title="Watchers" src="https://img.shields.io/github/watchers/Guilhermossauro/Baileys-Natsuki?label=Watchers&color=blue&style=flat-square"></a>
 </p>
 
-## Instalação do Bot no Linux
+## Instalação do Bot
 
 ### Passo 1: Clonando o Repositório
 ```bash
@@ -50,7 +50,7 @@ npm install -g pm2
 pm2 start app.js --name Baileys-Natsuki
 ```
 
-### Instalando O bot no linux
+### Instalação do bot no Linux
 1. Instale o Node.js:
 ```bash
 sudo apt update
