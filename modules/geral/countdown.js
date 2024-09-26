@@ -1,12 +1,24 @@
 const { responderTexto } = require("../../sockets");
+
+function adicionarDiasUteis(data, dias) {
+    let diasAdicionados = 0;
+    while (diasAdicionados < dias) {
+        data.setDate(data.getDate() + 1);
+        if (data.getDay() !== 0 && data.getDay() !== 6) {
+            diasAdicionados++;
+        }
+    }
+    return data;
+}
+
 exports.contardias = async function contardias(client, message) {
     const { id, from, mimetyped } = message;
-    const mensagem =  mimetyped.command
-    const commands = mensagem
+    const mensagem = mimetyped.command;
+    const commands = mensagem;
     const args = commands.split(" ");
 
     if (args.length < 3) {
-        return responderTexto(client, from, 'Por favor, use o formato:\n\n1. *!contardias somar <número>* (para somar dias à data atual)\n2. *!contardias to DD/MM/AAAA* (para calcular os dias restantes até uma data)', id);
+        return responderTexto(client, from, 'Por favor, use o formato:\n\n1. *!contardias somar <número>* (para somar dias à data atual)\n2. *!contardias to DD/MM/AAAA* (para calcular os dias restantes até uma data)\n3. *!contardias uteis <número>* (para contar apenas dias úteis)', id);
     }
 
     const action = args[1].toLowerCase();
@@ -22,7 +34,7 @@ exports.contardias = async function contardias(client, message) {
         let novaData = new Date(dataAtual);
         novaData.setDate(novaData.getDate() + diasASomar);
         const dia = String(novaData.getDate()).padStart(2, '0');
-        const mes = String(novaData.getMonth() + 1).padStart(2, '0'); // Meses são indexados de 0 a 11
+        const mes = String(novaData.getMonth() + 1).padStart(2, '0');
         const ano = novaData.getFullYear();
         const resultado = `Daqui a *${diasASomar}* dias,\n será *${dia}/${mes}/${ano}*.`;
         await responderTexto(client, from, resultado, id);
@@ -46,7 +58,19 @@ exports.contardias = async function contardias(client, message) {
         let diasDeDiferenca = Math.ceil(diferencaEmMilissegundos / (1000 * 60 * 60 * 24));
         const resultado = `Faltam *${diasDeDiferenca}* dias para essa data.`;
         await responderTexto(client, from, resultado, id);
+    } 
+    else if (action === 'uteis') {
+        const diasUteis = parseInt(param);
+        if (isNaN(diasUteis) || diasUteis <= 0) {
+            return responderTexto(client, from, 'Por favor, insira um número válido de dias úteis.', id);
+        }
+        let novaData = adicionarDiasUteis(new Date(dataAtual), diasUteis);
+        const dia = String(novaData.getDate()).padStart(2, '0');
+        const mes = String(novaData.getMonth() + 1).padStart(2, '0');
+        const ano = novaData.getFullYear();
+        const resultado = `Daqui a *${diasUteis}* dias úteis,\n será *${dia}/${mes}/${ano}*.`;
+        await responderTexto(client, from, resultado, id);
     } else {
-        responderTexto(client, from, 'Comando inválido! Use:\n\n1. *!contardias somar <número>* (para somar dias à data atual)\n2. *!contardias to DD/MM/AAAA* (para calcular os dias restantes até uma data)', id);
+        responderTexto(client, from, 'Comando inválido! Use:\n\n1. *!contardias somar <número>* (para somar dias à data atual)\n2. *!contardias to DD/MM/AAAA* (para calcular os dias restantes até uma data)\n3. *!contardias uteis <número>* (para contar apenas dias úteis)', id);
     }
 };
