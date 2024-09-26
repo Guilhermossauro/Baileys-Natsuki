@@ -5,13 +5,13 @@ const fs = require('fs');
 const { enviarTexto } = require('../../sockets')
 
 exports.s = async function s(client, enviado) {
-    const { key, message,isGroup2,sender } = enviado;
-    if(!isGroup2){
-        return enviarTexto(client,sender,"Este comando só pode ser utilizado em grupos")
-    }
-
-    let quotedMessage = message.extendedTextMessage?.contextInfo?.quotedMessage;
-    let mediaMessage = quotedMessage || message;  
+    const { from,isGroup,quotedMessage,message } = enviado;
+    if(!isGroup){
+        return enviarTexto(client,from,"Este comando só pode ser utilizado em grupos")
+    } 
+    let mediaMessage =message;  
+    if(quotedMessage!==undefined){
+    mediaMessage = quotedMessage }
     if (mediaMessage.imageMessage || mediaMessage.videoMessage) {
 
         if (mediaMessage.imageMessage) {
@@ -24,7 +24,7 @@ exports.s = async function s(client, enviado) {
                     quality: 100,
                 });
                 const stickerBuffer = await sticker.build();
-                await client.sendMessage(sender, { sticker: stickerBuffer });
+                await client.sendMessage(from, { sticker: stickerBuffer });
             } catch (error) {
                 console.error('Erro ao criar figurinha de imagem:', error);
             }
@@ -59,7 +59,7 @@ exports.s = async function s(client, enviado) {
                     quality: 80,
                 });
                 const stickerBuffer = await sticker.build();
-                await client.sendMessage(sender, { sticker: stickerBuffer });
+                await client.sendMessage(from, { sticker: stickerBuffer });
                 fs.unlinkSync(videoPath);
                 fs.unlinkSync(webpPath);
             } catch (error) {
@@ -69,6 +69,6 @@ exports.s = async function s(client, enviado) {
             console.log('O tipo de mídia não é suportado.');
         }
     } else {
-        return enviarTexto(client,sender,"Assim eu não consigo, preciso receber uma midia acompanhada de #s ou respondendo uma mensagem contendo uma midia")
+        return enviarTexto(client,from,"Assim eu não consigo, preciso receber uma midia acompanhada de #s ou respondendo uma mensagem contendo uma midia")
     }
 }
