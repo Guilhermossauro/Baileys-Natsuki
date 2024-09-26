@@ -41,7 +41,7 @@ Digite o número desejado para adicionar ao bot no terminal (incluir o código d
 ```bash
 5527981254789
 ```
-Aguarde o código aparecer no terminal e escaneie no WhatsApp.
+Aguarde o código aparecer no terminal e digite ele no wahtsapp.
 
 ### Ambiente de Produção com PM2
 Para rodar o bot em background, use PM2:
