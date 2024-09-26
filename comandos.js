@@ -5,6 +5,7 @@ const { menu } = require("./modules/menu");
 const {s} = require('./modules/geral/s')
 const {clima} = require('./modules/geral/clima')
 const {tts} = require('./modules/geral/tts')
+const {contardias} = require('./modules/geral/countdown')
 //===============||modulos grupos||===============//
 const {ban} = require('./modules/grupos/ban')
 const { sorte } = require("./modules/grupos/sorte");
@@ -33,6 +34,9 @@ commands.menu= (client,key) => menu(client,key)
 commands.clima= (client,key) => clima(client,key)
 commands.s= (client,key) => s(client,key)
 commands.tts= (client,key) => tts(client,key)
+commands.countdown= (client,key) => contardias(client,key)
+commands.contardia= (client,key) => contardias(client,key)
+commands.cdia= (client,key) => contardias(client,key)
 //==============================||modulos grupos||==============================//
 commands.hidetag= (client,key) => hidetag(client,key)
 commands.sorte= (client,key) => sorte(client,key)
