@@ -8,8 +8,8 @@ exports.hidetag = async function hidetag(client, enviado) {
         }
         return admins
     }
-    const {remoteJid,body,isGroup2,metadata,sender,from} = enviado;
-    const mensagem =  body.command
+    const {remoteJid,mimetyped,isGroup2,metadata,sender,from} = enviado;
+    const mensagem =  mimetyped.command
     const commands = mensagem
     const args = commands.split(" ");
       const groupMembers = isGroup2 ? metadata.participants : ''
@@ -40,15 +40,10 @@ exports.hidetag = async function hidetag(client, enviado) {
         for (let i = 0; i < groupMembers.length; i++) {
             array.push(groupMembers[i].id)
             }
-           
-           
-           
+       
     response= {text:alertToSend,
         mentions: array
         }
-
-    
-
-    await client.sendMessage(from, response);
+        await client.sendMessage(from, response);
 }
 
