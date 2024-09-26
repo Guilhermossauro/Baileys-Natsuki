@@ -51,22 +51,23 @@ pm2 start app.js --name Baileys-Natsuki
 ```
 
 ### Instalação do bot no Linux
-1. Instale o Node.js:
+
+## 1. Instale o Node.js:
 ```bash
 sudo apt update
 sudo apt install nodejs
 sudo apt install npm
 ```
 
-2. Instale o FFMPEG:
+## 2. Instale o FFMPEG:
 ```bash
 sudo apt install ffmpeg
 ```
-3. Instale as dependencias do bot:
+## 3. Instale as dependencias do bot:
 ```bash
 sudo npm i
 ```
-3. Inicie o bot:
+## 4. Inicie o bot:
 ```bash
 node app.js
 ```
