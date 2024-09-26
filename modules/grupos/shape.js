@@ -1,31 +1,25 @@
+const { responderTexto, responderComMencoes } = require("../../sockets");
 exports.shape = async function shape(client, message) {
-    const { id, from, sender, isGroupMsg } = message;
-
-    if (!isGroupMsg) {
-        await client.react(id, "🤷🏻‍♀️");
-        client.reply(from, "Este comando só pode ser usado em grupos.", id);
+    const { key, from, sender, isGroup } = message;
+    if (!isGroup) {
+        await responderTexto(client, from, "Este comando só pode ser usado em grupos.", message);
         return;
     }
 
-    let { pushname, verifiedName } = sender;
-    pushname = pushname || verifiedName;
-
-    await client.react(id, "🤔");
-
+      const lista= [sender]
     const shapeScore = parseInt(Math.random() * 100 + 1);
-    const persona = pushname;
-
-   await client.sendTextWithMentions(from, `Então @${persona} ,\n *O seu shape está ${shapeScore}%*`, id);
-
+    let resposta;
     if (shapeScore <= 20) {
-        client.reply(from, "Frango detectado! Hora de começar a treinar sério! 🐔😂", id);
+        resposta = "Frango detectado! Hora de começar a treinar sério! 🐔😂";
     } else if (shapeScore <= 40) {
-        client.reply(from, "Tá quase saindo do time dos frangos, continua assim! 💪🐤", id);
+        resposta = "Tá quase saindo do time dos frangos, continua assim! 💪🐤";
     } else if (shapeScore <= 60) {
-        client.reply(from, "Mandando bem, mas ainda tem espaço pra crescer! 🚀", id);
+        resposta = "Mandando bem, mas ainda tem espaço pra crescer! 🚀";
     } else if (shapeScore <= 80) {
-        client.reply(from, "Que shape, hein? Já dá pra intimidar no rolê! 🔥", id);
+        resposta = "Que shape, hein? Já dá pra intimidar no rolê! 🔥";
     } else {
-        client.reply(from, "Monstro! Tá com shape de fisiculturista! 🏆💪", id);
+        resposta = "Monstro! Tá com shape de fisiculturista! 🏆💪";
     }
-}
+    await responderComMencoes(client, from, `Então @${sender.replace(/@s.whatsapp.net/g, '')},\n *O seu shape está ${shapeScore}%*`, lista, message);
+    await responderTexto(client, from, resposta, message);
+};
