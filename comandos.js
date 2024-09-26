@@ -1,11 +1,10 @@
 //Caso for criar um comando voce precisar declarar ele aqui como os modelos a baixo//
-
-
 //Aqui voce inclue as pastas que voce deixou o comando que voce criou //
 //===============||modulos gerais||===============//
 const { menu } = require("./modules/menu");
 const {s} = require('./modules/geral/s')
 const {clima} = require('./modules/geral/clima')
+const {tts} = require('./modules/geral/tts')
 //===============||modulos grupos||===============//
 const {ban} = require('./modules/grupos/ban')
 const { sorte } = require("./modules/grupos/sorte");
@@ -17,6 +16,7 @@ const {linkdogrupo} = require('./modules/grupos/linkdogrupo')
 const {couple} = require('./modules/grupos/couple')
 const {add} = require('./modules/grupos/add')
 const {hidetag} = require('./modules/grupos/hidetag')
+const {shape} = require('./modules/grupos/shape')
 const {promover} = require('./modules/grupos/promover')
 const {confiabilidade} = require('./modules/grupos/confiabilidade')
 const {gravidez} = require('./modules/grupos/gravidez')
@@ -32,6 +32,7 @@ const commands = {}
 commands.menu= (client,key) => menu(client,key)
 commands.clima= (client,key) => clima(client,key)
 commands.s= (client,key) => s(client,key)
+commands.tts= (client,key) => tts(client,key)
 //==============================||modulos grupos||==============================//
 commands.hidetag= (client,key) => hidetag(client,key)
 commands.sorte= (client,key) => sorte(client,key)
@@ -46,6 +47,7 @@ commands.pau= (client,key) => pau(client,key)
 commands.confiabilidade= (client,key) => confiabilidade(client,key)
 commands.trust= (client,key) => confiabilidade(client,key)
 commands.couple= (client,key) => couple(client,key)
+commands.shape= (client,key) => shape(client,key)
 commands.par= (client,key) => couple(client,key)
 commands.add= (client,key) => add(client,key)
 commands.ban= (client,key) => ban(client,key)
