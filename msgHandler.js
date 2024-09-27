@@ -1,5 +1,28 @@
 const commands = require("./comandos");
 
+async function mimetest(message) {
+    const types = [
+
+      { key: 'extendedTextMessage', mime: 'text', command: msg => msg.extendedTextMessage.text },  
+      { key: 'protocolMessage', mime: 'protocolMessage', command: null },
+      { key: 'reactionMessage', mime: 'reactionMessage', command: msg => msg.reactionMessage.key.text },
+      { key: 'audioMessage', mime: 'audioMessage', command: null },
+      { key: 'viewOnceMessageV2', mime: 'viewOnceMessageV2', command: null },
+      { key: 'conversation', mime: 'conversation', command: msg => msg.conversation },
+      { key: 'ephemeralMessage', mime: 'ephemeralMessage', command: msg => msg.ephemeralMessage.message.extendedTextMessage.text },
+      { key: 'imageMessage', mime: 'imageMessage', command: msg => msg.imageMessage.caption },
+      { key: 'stickerMessage', mime: 'stickerMessage', command: msg => msg.stickerMessage  },
+      { key: 'videoMessage', mime: 'videoMessage', command: msg => msg.videoMessage.caption },
+  ];
+  for (const type of types) {
+      if (message[type.key]) {
+          return { mimetype: typeof type.mime === 'function' ? type.mime(message) : type.mime, command: type.command(message) };
+      }
+  }
+  console.log(`mimetest fail: ${JSON.stringify(message)}`)
+  return { mimetype: 'error', command: null };
+
+  }
 module.exports = msgHandler = async (client, enviado ) => {
     let grupoInfo;
     let ismedia= false
@@ -14,6 +37,8 @@ module.exports = msgHandler = async (client, enviado ) => {
         sender = enviado.key.participant
         
     }
+    
+    try{
     const mimetyped = await mimetest(message);
         if(mimetyped.mimetype !=`text`&& mimetyped.mimetype !=`ephemeralMessage` && mimetyped.mimetype !=`conversation`&& mimetyped.mimetype !=`Message`){
             ismedia= true
@@ -64,28 +89,7 @@ if(mimetyped.mimetype != `stickerMessage`) {
             console.log(err);
         }
     }
+}catch(err){
+    console.log(`client error: ${err}`)
 }
-
-async function mimetest(message) {
-      const types = [
-
-        { key: 'extendedTextMessage', mime: 'text', command: msg => msg.extendedTextMessage.text },
-        { key: 'reactionMessage', mime: 'reactionMessage', command: msg => msg.reactionMessage.key.text },
-        { key: 'audioMessage', mime: 'audioMessage', command: null },
-        { key: 'viewOnceMessageV2', mime: 'viewOnceMessageV2', command: null },
-        { key: 'conversation', mime: 'conversation', command: msg => msg.conversation },
-        { key: 'ephemeralMessage', mime: 'ephemeralMessage', command: msg => msg.ephemeralMessage.message.extendedTextMessage.text },
-        { key: 'imageMessage', mime: 'imageMessage', command: msg => msg.imageMessage.caption },
-        { key: 'stickerMessage', mime: 'stickerMessage', command: msg => msg.stickerMessage  },
-        { key: 'videoMessage', mime: 'videoMessage', command: msg => msg.videoMessage.caption },
-    ];
-    for (const type of types) {
-        if (message[type.key]) {
-            return { mimetype: typeof type.mime === 'function' ? type.mime(message) : type.mime, command: type.command(message) };
-        }
-    }
-    console.log(`mimetest fail: ${JSON.stringify(message)}`)
-    return { mimetype: 'error', command: null };
-
-    
 }
