@@ -30,8 +30,16 @@ git clone https://github.com/Guilhermossauro/Baileys-Natsuki
 cd Baileys-Natsuki
 npm install
 ```
+### Passo 3: Criando arquivo .env
+voce vai precisar de um arquivo env para rodar o bot 
+e o mesmo deve seguir este modelo
+```bash
+APIUSERKEY='SUA KEY DA API'
+APIUSERNAME='SEU USERNAME'
+API_URL= 'URL DA API'
+```
 
-### Passo 3: Iniciando o Bot
+### Passo 4: Iniciando o Bot
 ```bash
 npm start
 ```
