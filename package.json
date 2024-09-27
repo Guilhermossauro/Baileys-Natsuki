@@ -9,9 +9,11 @@
   "author": "guilhermossauro",
   "dependencies": {
     "@whiskeysockets/baileys": "^6.7.7",
+    "dotenv": "^16.4.5",
     "fluent-ffmpeg": "^2.1.3",
+    "google-tts-api": "^2.0.2",
     "json-server": "^1.0.0-beta.3",
     "qrcode-terminal": "^0.12.0",
-    "wa-sticker-formatter": "^4.4.4"
+    "wa-sticker-hamma": "^2.3.6"
   }
 }
