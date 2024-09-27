@@ -1,6 +1,9 @@
 const axios = require('axios');
 const { enviarTexto } = require("../../sockets");
-
+require("dotenv").config();
+const USERKEY=process.env.USERKEY
+const USERNAME=process.env.APIUSERNAME
+const API_URL= process.env.API_URL
 exports.clima = async function clima(client, enviado) {
     const { key, mimetyped } = enviado;
     const body= mimetyped
@@ -19,28 +22,33 @@ exports.clima = async function clima(client, enviado) {
     enviarTexto(client, key.remoteJid, `Verificando com São Pedro como está o clima em ${cidade}... pera um pouco`);
 
     try {
-        let clima = await axios.get(`https://weather.contrateumdev.com.br/api/weather/city/?city=${encodeURI(cidade)}`);
-        
+        const clima = await axios.post(API_URL, {
+            texto: cidade,
+            kea: USERKEY,
+            phone:USERNAME 
+                })
+             
         if (clima?.data?.cod === '404') {
             return enviarTexto(client, key.remoteJid, `Uai... ${clima?.data?.message}`);
         }
 
-        let marquer = "```";
-        let divisor = '- - - - - - - - - - - - - - - - - - - - - - - - - - - - -';
-        let retorno = `
-O clima agora em ${cidade}
-${divisor}
-${marquer}Tempo:${marquer}                               | ${clima.data.weather[0].description}
-${marquer}Temperatura atual:${marquer} | ${clima?.data?.main?.temp.toFixed(2)}ºC
-${marquer}Min:${marquer}                                    | ${clima?.data?.main?.temp_min.toFixed(2)} ºC
-${marquer}Max:${marquer}                                    | ${clima?.data?.main?.temp_max.toFixed(2)} ºC
-${marquer}Sensação térmica:${marquer}    | ${clima?.data?.main?.feels_like.toFixed(2)} ºC
-${marquer}Umidade:${marquer}                           | ${clima?.data?.main?.humidity}%
-${divisor}
-Coordenadas: 
-lat: ${clima?.data?.coord?.lat}
-lon: ${clima?.data?.coord?.lon}`;
-
+        const{name,weather,main,coord}=clima.data
+        const{temp,feels_like,temp_min,temp_max,humidity}= main
+         const divisor = '- - - - - - - - - - - - - - - - - - - - - - - - - - - - -';
+         const marquer = "```";
+         const retorno=`O clima agora em ${name}
+     ${divisor}
+     ${marquer}Tempo:${marquer}                                | ${weather[0].main}
+     ${marquer}Temperatura atual:${marquer}  | ${temp.toFixed(2)}ºC
+     ${marquer}Min:${marquer}                                    | ${temp_min.toFixed(2)} ºC
+     ${marquer}Max:${marquer}                                    | ${temp_max.toFixed(2)} ºC
+     ${marquer}Sensação térmica:${marquer}    | ${feels_like.toFixed(2)} ºC
+     ${marquer}Umidade:${marquer}                           | ${humidity}%
+     ${divisor}
+     Coordenadas: 
+     lat: ${coord?.lat}
+     lon: ${coord?.lon}
+         `
         enviarTexto(client, key.remoteJid, retorno);
     } catch (error) {
         console.log("Erro ao buscar o clima:", error);
