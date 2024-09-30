@@ -1,5 +1,5 @@
-
 exports.hidetag = async function hidetag(client, enviado) {
+  let response
     function getGroupAdmins(participants) {
         admins = []
         for (let i of participants) {
@@ -8,13 +8,14 @@ exports.hidetag = async function hidetag(client, enviado) {
         }
         return admins
     }
-    const {remoteJid,mimetyped,isGroup2,metadata,sender,from} = enviado;
+
+    const {mimetyped,isGroup,metadata,sender,from} = enviado;
     const mensagem =  mimetyped.command
     const commands = mensagem
     const args = commands.split(" ");
-      const groupMembers = isGroup2 ? metadata.participants : ''
-    const groupAdmins = isGroup2 ? getGroupAdmins(groupMembers) : ''
-    if(!isGroup2){
+      const groupMembers = isGroup ? metadata.participants : ''
+    const groupAdmins = isGroup ? getGroupAdmins(groupMembers) : ''
+    if(!isGroup){
       response= {text:"Este comando só pode ser usado em grupos."}
       return     await client.sendMessage(from, response);
   }
@@ -34,16 +35,13 @@ exports.hidetag = async function hidetag(client, enviado) {
   await client.sendMessage(sender, response)
   return
   }
-    let response
-
       let array = []
         for (let i = 0; i < groupMembers.length; i++) {
             array.push(groupMembers[i].id)
             }
-       
     response= {text:alertToSend,
         mentions: array
         }
-        await client.sendMessage(from, response);
+    await client.sendMessage(from, response);
 }
 
