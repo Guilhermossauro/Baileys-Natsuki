@@ -1,5 +1,6 @@
 const { downloadMediaMessage } = require('@whiskeysockets/baileys');
 const ffmpeg = require('fluent-ffmpeg');
+const stream = require('stream');
 const fs = require('fs');
 const axios = require('axios');
 const { enviarTexto } = require('../../sockets');
@@ -14,13 +15,13 @@ exports.s = async function s(client, enviado) {
     }
     if (mediaMessage.imageMessage || mediaMessage.videoMessage) {
         if (mediaMessage.imageMessage) {
-                try {
+            try {
                 const buffer = await downloadMediaMessage({ message: mediaMessage }, 'buffer');
-                const imagePath = './temp_image.jpg';
                 const webpPath = './temp_sticker.webp';
-                fs.writeFileSync(imagePath, buffer);
-                await new Promise((resolve, reject) => {
-                    ffmpeg(imagePath)
+                const inputStream = new stream.PassThrough();
+                inputStream.end(buffer); 
+                    await new Promise((resolve, reject) => {
+                                ffmpeg(inputStream)
                         .outputOptions([
                             '-vcodec', 'libwebp',
                             '-vf', 'scale=512:512',
@@ -35,30 +36,26 @@ exports.s = async function s(client, enviado) {
                         .on('error', reject)
                         .run();
                 });
-try {
-    const stickerBuffer = fs.readFileSync(webpPath);         
-    await client.sendMessage(from, { sticker: stickerBuffer });
-}catch(err){
-    console.log(`${err}`)
-    try{
-    fs.unlinkSync(webpPath)
-    fs.unlinkSync(imagePath);}catch(err){
-        console.log(`erro ao deletar os arquivos temporarios ${err}`)
-    }
-}
-                 fs.unlinkSync(webpPath)
-                fs.unlinkSync(imagePath);
+                try {
+                    const stickerBuffer = fs.readFileSync(webpPath);
+                    await client.sendMessage(from, { sticker: stickerBuffer });
+                } catch (err) {
+                    console.log(`${err}`);
+                } finally {
+                    fs.unlinkSync(webpPath);
+                }
             } catch (error) {
                 console.error('Erro ao criar figurinha de imagem:', error);
-            }
-        } else if (mediaMessage.videoMessage) {
+    }
+} else if (mediaMessage.videoMessage) {
             try {
                 const buffer = await downloadMediaMessage({ message: mediaMessage }, 'buffer');
-                const videoPath = './temp_video.mp4';
                 const webpPath = './temp_sticker.webp';
-                fs.writeFileSync(videoPath, buffer);
+                const inputStream = new stream.PassThrough();
+                inputStream.end(buffer); 
+
                 await new Promise((resolve, reject) => {
-                    ffmpeg(videoPath)
+                    ffmpeg(inputStream)
                         .outputOptions([
                             '-vcodec', 'libwebp',
                             '-vf', 'scale=512:512,fps=15',
@@ -77,7 +74,6 @@ try {
                 });
                 const stickerBuffer = fs.readFileSync(webpPath);
                 await client.sendMessage(from, { sticker: stickerBuffer });
-                fs.unlinkSync(videoPath);
                 fs.unlinkSync(webpPath);
             } catch (error) {
                 console.error('Erro ao criar figurinha animada:', error);
