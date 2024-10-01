@@ -2,10 +2,6 @@ const { downloadMediaMessage } = require('@whiskeysockets/baileys');
 const ffmpeg = require('fluent-ffmpeg');
 const fs = require('fs');
 const axios = require('axios');
-require("dotenv").config();
-const USERKEY=process.env.APIUSERKEY
-const API_URL= process.env.API_URL
-const USERNAME=process.env.APIUSERNAME
 const { enviarTexto } = require('../../sockets');
 exports.s = async function s(client, enviado) {
     const { from, isGroup, quotedMessage, message } = enviado;
@@ -40,18 +36,15 @@ exports.s = async function s(client, enviado) {
                         .run();
                 });
 try {
-    const stickerBuffer = fs.readFileSync(webpPath);
-    const sitckeB = await axios.post(`${API_URL}/api/sticker/maker`, {
-       texto: stickerBuffer,
-        pack: 'Natsuki-bot', 
-        author: `Faça em\n    (27)992666840`,
-        kea: USERKEY,
-        phone:USERNAME 
-            })
-            const buffer = Buffer.from(sitckeB.data.resultadoTexto); 
-    await client.sendMessage(from, { sticker: buffer });
+    const stickerBuffer = fs.readFileSync(webpPath);         
+    await client.sendMessage(from, { sticker: stickerBuffer });
 }catch(err){
     console.log(`${err}`)
+    try{
+    fs.unlinkSync(webpPath)
+    fs.unlinkSync(imagePath);}catch(err){
+        console.log(`erro ao deletar os arquivos temporarios ${err}`)
+    }
 }
                  fs.unlinkSync(webpPath)
                 fs.unlinkSync(imagePath);
